@@ -8,11 +8,14 @@
 ・VueのバンドルファイルをDjangoで直接レンダリングしています。
 
 ![](https://selfsryo-blog.s3-ap-northeast-1.amazonaws.com/github/vue_django_calendar/vuecalendar.gif)
+<br>
+
 
 ## 確認バージョン
 | docker | docker-compose |
 :---:|:---:
 | 19.03.13 | 1.27.4 |
+<br>
 
 
 ## 環境構築
@@ -46,6 +49,7 @@ http://127.0.0.1:8000/admin/
 ```
 http://127.0.0.1:8000/
 ```
+<br>
 
 
 ## Vueの開発モード
@@ -73,8 +77,8 @@ npm run serve
 ```
 http://127.0.0.1:8080/
 ```
-
 <br>
+
 ##### 修正後のファイルをDjangoで表示する場合<br>
 ・以下でバンドルファイル生成
 ```
