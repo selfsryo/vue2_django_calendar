@@ -13,12 +13,7 @@
       </thead>
       <tbody>
         <tr class="cal-day" v-for="(weekData, index) in calData" :key="index">
-          <td
-            v-for="(dayNum, index) in weekData"
-            :key="index"
-            @click="dateClick(dayNum)"
-            :class="{'cal-today': isToday(dayNum), active: day === dayNum, isSaturday: index === 6, isSunday: index === 0, 'cal-holiday': isHoliday(dayNum)}"
-          >
+          <td v-for="(dayNum, index) in weekData" :key="index" @click="dateClick(dayNum)" :class="{'cal-today': isToday(dayNum), active: day === dayNum, isSaturday: index === 6, isSunday: index === 0, 'cal-holiday': isHoliday(dayNum)}">
             <span v-if="isToday(dayNum)">
               <strong>today</strong>
             </span>
@@ -50,139 +45,139 @@ import { UPDATE_HOLIDAY } from "../store/mutation-types";
 export default {
   data() {
     return {
-      weekdays: ["Sun", "Mon", "Tue", "Wed", "Tur", "Fri", "Sat"],
+      weekdays: ['Sun', 'Mon', 'Tue', 'Wed', 'Tur', 'Fri', 'Sat'],
       year: 2020,
       month: 10,
       day: -1,
-      today: "",
+      today: '',
       checkHoliday: false,
-      nextHolidayObj: "",
-      nextHolidayName: "",
-      nextHolidayDate: "",
+      nextHolidayObj: '',
+      nextHolidayName: '',
+      nextHolidayDate: '',
       termUntilNextHoliday: 0
     };
   },
   computed: {
-    ...mapGetters(["holidayList"]),
+    ...mapGetters(['holidayList']),
     calData() {
-      let calData = [];
-      let firstWeekDay = new Date(this.year, this.month - 1, 1).getDay();
-      let lastDay = new Date(this.year, this.month, 0).getDate();
-      let dayNum = 1;
+      const calData = []
+      const firstWeekDay = new Date(this.year, this.month - 1, 1).getDay()
+      const lastDay = new Date(this.year, this.month, 0).getDate()
+      let dayNum = 1
       while (dayNum <= lastDay) {
-        let weekData = [];
+        const weekData = []
         // 日曜～土曜の日付データを配列で作成
         for (let i = 0; i <= 6; i++) {
           if (calData.length === 0 && i < firstWeekDay) {
             // 初週の1日以前の曜日は空文字
-            weekData[i] = "";
+            weekData[i] = ''
           } else if (lastDay < dayNum) {
             // 最終日以降の曜日は空文字
-            weekData[i] = "";
+            weekData[i] = ''
           } else {
             // 通常の日付入力
-            weekData[i] = dayNum;
-            dayNum++;
+            weekData[i] = dayNum
+            dayNum++
           }
         }
-        calData.push(weekData);
+        calData.push(weekData)
       }
-      return calData;
+      return calData
     }
   },
   created() {
     // 祝日データ取得
     this.$http(this.$httpHoliday)
       .then(response => {
-        return response.json();
+        return response.json()
       })
       .then(data => {
-        this[UPDATE_HOLIDAY](data);
-      });
+        this[UPDATE_HOLIDAY](data)
+      })
   },
   mounted() {
     // 今日の日付を文字列で算出
-    let date = new Date();
-    let y = date.getFullYear();
-    let m = ("0" + (date.getMonth() + 1)).slice(-2);
-    let d = ("0" + date.getDate()).slice(-2);
-    this.year = y;
-    this.month = Number(m);
-    this.today = y + "-" + m + "-" + d;
+    const date = new Date()
+    const y = date.getFullYear()
+    const m = ('0' + (date.getMonth() + 1)).slice(-2)
+    const d = ('0' + date.getDate()).slice(-2)
+    this.year = y
+    this.month = Number(m)
+    this.today = y + '-' + m + '-' + d
   },
   methods: {
     ...mapActions([UPDATE_HOLIDAY]),
     setLastMonth() {
       if (this.month === 1) {
-        this.year--;
-        this.month = 12;
+        this.year--
+        this.month = 12
       } else {
-        this.month--;
+        this.month--
       }
-      this.day = -1;
+      this.day = -1
     },
     setNextMonth() {
       if (this.month === 12) {
-        this.year++;
-        this.month = 1;
+        this.year++
+        this.month = 1
       } else {
-        this.month++;
+        this.month++
       }
-      this.day = -1;
+      this.day = -1
     },
     dateClick(dayNum) {
-      if (dayNum !== "") {
-        this.day = dayNum;
+      if (dayNum !== '') {
+        this.day = dayNum
       }
     },
     isToday(day) {
-      let date = this.setDateToString(day);
+      const date = this.setDateToString(day)
       if (this.today === date) {
-        return true;
+        return true
       }
-      return false;
+      return false
     },
     setDateToString(day) {
       // 日を年月日の文字列にして返す
-      let date =
+      const date =
         this.year +
-        "-" +
-        String(this.month).padStart(2, "0") +
-        "-" +
-        String(day).padStart(2, "0");
-      return date;
+        '-' +
+        String(this.month).padStart(2, '0') +
+        '-' +
+        String(day).padStart(2, '0')
+      return date
     },
     isHoliday(day) {
       // Ajaxで取得した日と一致しているかチェック
-      let date = this.setDateToString(day);
-      for (let holiday in this.holidayList) {
+      const date = this.setDateToString(day)
+      for (const holiday in this.holidayList) {
         if (this.holidayList[holiday].date === date) {
-          return true;
+          return true
         }
       }
-      return false;
+      return false
     },
     calcTermDays(day1, day2) {
       // Dateオブジェクトの日数の差分を計算
-      return (day2 - day1) / 86400000;
+      return (day2 - day1) / 86400000
     },
     calcNextHoliday() {
       // 次の祝日までの日数、および次の祝日のオブジェクトを返す
-      for (let holiday in this.holidayList) {
-        let holidayToDate = new Date(this.holidayList[holiday].date.split("-"));
-        let todayToDate = new Date(this.today.split("-"));
-        let termDays = this.calcTermDays(todayToDate, holidayToDate);
+      for (const holiday in this.holidayList) {
+        const holidayToDate = new Date(this.holidayList[holiday].date.split('-'))
+        const todayToDate = new Date(this.today.split('-'))
+        const termDays = this.calcTermDays(todayToDate, holidayToDate)
         if (termDays >= 0) {
-          return [termDays, this.holidayList[holiday]];
+          return [termDays, this.holidayList[holiday]]
         }
       }
     },
     setNextHoliday() {
       // 次の祝日の名前、日数をセット
-      [this.termUntilNextHoliday, this.nextHolidayObj] = this.calcNextHoliday();
-      this.nextHolidayName = this.nextHolidayObj.name;
-      this.nextHolidayDate = this.nextHolidayObj.date;
-      this.checkHoliday = true;
+      [this.termUntilNextHoliday, this.nextHolidayObj] = this.calcNextHoliday()
+      this.nextHolidayName = this.nextHolidayObj.name
+      this.nextHolidayDate = this.nextHolidayObj.date
+      this.checkHoliday = true
     }
   }
 };
