@@ -40,8 +40,8 @@
 </template>
 
 <script>
-import { mapGetters, mapActions } from "vuex";
-import { UPDATE_HOLIDAY } from "../store/mutation-types";
+import { mapGetters, mapActions } from 'vuex';
+import { UPDATE_HOLIDAY } from '../store/mutation-types';
 export default {
   data() {
     return {
@@ -280,13 +280,14 @@ li > strong {
 li {
   font-size: 30px;
 }
-.v-enter-active,
-.v-leave-active {
+.v-enter-active {
   transition: opacity 3s;
 }
-.v-enter,
-.v-leave-to {
+.v-enter {
   opacity: 0;
+}
+.v-enter-to {
+  opacity: 1;
 }
 @media (min-width: 900px) {
   #cal-main,
