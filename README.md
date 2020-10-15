@@ -5,7 +5,7 @@
 ・ボタンを押すと祝日まであと何日か表示する、ただそれだけのカレンダーです。<br>
 ・Djangoのアドミンページから祝日を登録する必要があります。<br>
 ・Vue2を使っています。<br>
-・VueのバンドルファイルをDjangoで直接レンダリングしています。
+・VueでビルドしたファイルをDjangoで直接レンダリングしています。
 
 ![](https://selfsryo-blog.s3-ap-northeast-1.amazonaws.com/github/vue_django_calendar/vuecalendar.gif)
 <br>
