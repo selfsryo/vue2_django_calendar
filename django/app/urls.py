@@ -5,5 +5,5 @@ app_name = 'app'
 
 urlpatterns = [
     path('api/holiday/', views.HolidayList.as_view(), name='holiday_list'),
-	path('', views.Top.as_view(), name='top'),
+    path('', views.Top.as_view(), name='top'),
 ]
